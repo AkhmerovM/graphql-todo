@@ -1,6 +1,8 @@
-import React, { useState, useCallback } from 'react';
+import React, { Component } from 'react';
 import { AddForm } from 'modules/todo/components/AddForm';
 import { ToDoItem } from 'modules/todo/components/ToDoItem';
+import { observable } from 'mobx';
+import { observer } from 'mobx-react';
 import styles from './style.local.less';
 
 const initialState = [
@@ -9,33 +11,41 @@ const initialState = [
     { id: 3, name: 'Learn graphQl' },
 ];
 
-export function ToDoContainer() {
-    const [todoList, setTodoList] = useState(initialState);
-    const addNewItem = useCallback((name) => {
-        setTodoList([...todoList, { id: new Date().getTime(), name }]);
-    }, [todoList]);
-    const removeItem = useCallback((id) => {
-        const array = todoList.filter((item) => item.id !== id);
-        setTodoList(array);
-    }, [todoList]);
-    return (
-        <div className={styles.todoContainer}>
-            <div className={styles.todoContainerWrapper}>
-                <AddForm handleSubmitForm={addNewItem} />
-                <div className={styles.todoList}>
-                    <div className={styles.todoListInfo}>
-                        <div>Todo List</div>
-                        <div>
-                            There are
-                            {` ${todoList.length} `}
-                            todos
+@observer class ToDoContainer extends Component {
+    @observable todoList = initialState;
+
+    addNewItem = (name) => {
+        this.todoList.push({
+            id: new Date().getTime(),
+            name,
+        });
+    }
+
+    removeItem = (id) => {
+        this.todoList = this.todoList.filter((item) => item.id !== id);
+    }
+
+    render() {
+        return (
+            <div className={styles.todoContainer}>
+                <div className={styles.todoContainerWrapper}>
+                    <AddForm handleSubmitForm={this.addNewItem} />
+                    <div className={styles.todoList}>
+                        <div className={styles.todoListInfo}>
+                            <div>Todo List</div>
+                            <div>
+                                There are
+                                {` ${this.todoList.length} `}
+                                todos
+                            </div>
                         </div>
+                        {this.todoList.map((item) => (
+                            <ToDoItem key={item.id} name={item.name} id={item.id} removeItem={this.removeItem} />
+                        ))}
                     </div>
-                    {todoList.map((item) => (
-                        <ToDoItem key={item.id} name={item.name} id={item.id} removeItem={removeItem} />
-                    ))}
                 </div>
             </div>
-        </div>
-    );
+        );
+    }
 }
+export { ToDoContainer };
