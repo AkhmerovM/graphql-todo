@@ -12,10 +12,10 @@ export function AddForm({ handleSubmitForm }) {
     const handleSubmit = useCallback(() => {
         handleSubmitForm(value);
         setValue('');
-    }, [value]);
+    }, [value, handleSubmitForm]);
     return (
         <div className={styles.addForm}>
-            <Input value={value} onChange={handleChange} ref={inputRef} />
+            <Input value={value} className={styles.addFormInput} onChange={handleChange} ref={inputRef} />
             <Button disabled={!value} type="primary" onClick={handleSubmit}>Add</Button>
         </div>
     );
