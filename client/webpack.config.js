@@ -26,6 +26,13 @@ const postCssLoader = {
 const lessLoader = {
     loader: 'less-loader',
 };
+// const typingCssModulesLoader = {
+//     loader: 'typings-for-css-modules-loader',
+//     options: {
+//         modules: true,
+//         namedExport: true,
+//     },
+// };
 const SvgrWebpackLoader = {
     loader: '@svgr/webpack',
     options: {
@@ -39,7 +46,7 @@ const SvgrWebpackLoader = {
 module.exports = {
     context: paths.src,
     entry: {
-        main: './index.jsx',
+        main: './index.tsx',
     },
     output: {
         path: paths.build,
@@ -66,7 +73,15 @@ module.exports = {
                 test: /\.local\.less/u,
                 use: [styleLoader, cssModuleLoader, postCssLoader, lessLoader],
             },
-            { test: /\.(js|jsx)$/, exclude: /node_modules/, loader: 'babel-loader' },
+            // { test: /\.(js|jsx)$/, exclude: /node_modules/, loader: 'babel-loader' },
+            {
+                test: /\.(ts|tsx)$/,
+                exclude: /node_modules/,
+                use: [
+                    // 'babel-loader',
+                    'ts-loader',
+                ],
+            },
             {
                 test: /\.svg$/,
                 use: [SvgrWebpackLoader, 'url-loader'],
@@ -99,14 +114,17 @@ module.exports = {
     devtool: 'source-map',
     watch: isDev,
     resolve: {
-        extensions: ['.jsx', '.js', '*'],
+        extensions: ['.wasm', '.mjs', '.js', '.jsx', '.ts', '.tsx', '.json'],
         modules: [paths.src, 'node_modules'],
+        alias: {
+            '@': paths.src,
+        },
     },
     devServer: {
         contentBase: paths.public,
         compress: true,
         historyApiFallback: true,
-        port: 5001,
+        port: 5002,
         writeToDisk: true,
     },
     plugins: [
