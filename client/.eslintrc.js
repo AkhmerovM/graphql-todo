@@ -43,6 +43,7 @@ module.exports = {
                 tsx: 'never',
             },
         ],
+        '@typescript-eslint/explicit-module-boundary-types': 'error',
     },
     settings: {
         'import/resolver': {

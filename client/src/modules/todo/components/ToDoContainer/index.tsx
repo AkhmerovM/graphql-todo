@@ -25,7 +25,7 @@ const initialState = [
         this.todoList = this.todoList.filter((item) => item.id !== id);
     }
 
-    render() {
+    render():JSX.Element {
         return (
             <div className={styles.todoContainer}>
                 <div className={styles.todoContainerWrapper}>
