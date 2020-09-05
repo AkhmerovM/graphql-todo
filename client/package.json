@@ -49,7 +49,6 @@
         "postcss-loader": "^3.0.0",
         "style-loader": "^1.2.1",
         "ts-loader": "^8.0.3",
-        "typescript": "^4.0.2",
         "url-loader": "^4.1.0",
         "webpack": "^4.44.1",
         "webpack-cli": "^3.3.12",
@@ -58,6 +57,7 @@
     "dependencies": {
         "@types/react": "^16.9.49",
         "@types/react-dom": "^16.9.8",
+        "typescript": "^4.0.2",
         "antd": "^4.6.2",
         "classnames": "^2.2.6",
         "mobx": "^5.15.6",

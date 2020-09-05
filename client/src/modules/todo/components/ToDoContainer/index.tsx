@@ -3,6 +3,7 @@ import { AddForm } from 'modules/todo/components/AddForm';
 import { ToDoItem } from 'modules/todo/components/ToDoItem';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
+import { BaseApi } from 'modules/common/services/baseApi';
 import styles from './style.local.less';
 
 const initialState = [
@@ -26,6 +27,11 @@ const initialState = [
     }
 
     render():JSX.Element {
+        const request = new BaseApi('https://randomuser.mea/');
+        setTimeout(async () => {
+            const a = await request.get('api/', {mode: "cors"});
+            console.log(a);
+        });
         return (
             <div className={styles.todoContainer}>
                 <div className={styles.todoContainerWrapper}>
