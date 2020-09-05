@@ -12,6 +12,8 @@ type TOptions = {
 
 function parseOptions(options: TOptions): TOptions {
     return {
+        // TODO fix
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         headers: {
             'Content-Type': 'application/json',
