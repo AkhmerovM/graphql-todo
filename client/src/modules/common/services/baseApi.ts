@@ -37,9 +37,10 @@ export class BaseApi {
         try {
             const response = await fetch(address, parsedOptions);
             try {
-                const data = await response.json();
+                const res = await response.json();
+                const { data }: {data: T} = res;
                 return {
-                    success: true, data: data.data,
+                    success: true, data,
                 };
             } catch (e) {
                 return {

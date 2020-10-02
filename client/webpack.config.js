@@ -124,7 +124,7 @@ module.exports = {
         contentBase: paths.public,
         compress: true,
         historyApiFallback: true,
-        port: 5002,
+        port: 5003,
         writeToDisk: true,
     },
     plugins: [
