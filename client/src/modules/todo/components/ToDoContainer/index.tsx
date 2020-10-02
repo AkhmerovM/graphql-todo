@@ -1,57 +1,47 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { AddForm } from 'modules/todo/components/AddForm';
 import { ToDoItem } from 'modules/todo/components/ToDoItem';
-import { observable } from 'mobx';
-import { observer } from 'mobx-react';
 import { BaseApi } from 'modules/common/services/baseApi';
+import { selectTodoModule } from 'modules/todo/selectors';
+import { actionAddItem } from 'modules/todo/actions';
 import styles from './style.local.less';
 
-const initialState = [
-    { id: 1, name: 'Learn typescript' },
-    { id: 2, name: 'Learn mobx' },
-    { id: 3, name: 'Learn graphQl' },
-];
+function ToDoContainer(): JSX.Element {
+    const todoList = useSelector(selectTodoModule);
+    const dispatch = useDispatch();
+    const addNewItem = (name: string): void => {
+        dispatch(actionAddItem(name));
+    };
 
-@observer class ToDoContainer extends Component {
-    @observable todoList = initialState;
+    const removeItem = (id: number): void => {
+        // this.todoList = /**/this.todoList.filter((item) => item.id !== id);
+    };
 
-    addNewItem = (name: string): void => {
-        this.todoList.push({
-            id: new Date().getTime(),
-            name,
-        });
-    }
-
-    removeItem = (id: number): void => {
-        this.todoList = this.todoList.filter((item) => item.id !== id);
-    }
-
-    render():JSX.Element {
-        const request = new BaseApi('https://randomuser.mea/');
-        setTimeout(async () => {
-            const a = await request.get('api/', {mode: "cors"});
-            console.log(a);
-        });
-        return (
-            <div className={styles.todoContainer}>
-                <div className={styles.todoContainerWrapper}>
-                    <AddForm handleSubmitForm={this.addNewItem} />
-                    <div className={styles.todoList}>
-                        <div className={styles.todoListInfo}>
-                            <div>Todo List</div>
-                            <div>
-                                There are
-                                {` ${this.todoList.length} `}
-                                todos
-                            </div>
+    // const request = new BaseApi('https://randomuser.mea/');
+    // setTimeout(async () => {
+    //     const a = await request.get('api/', { mode: 'cors' });
+    //     console.log(a);
+    // });
+    return (
+        <div className={styles.todoContainer}>
+            <div className={styles.todoContainerWrapper}>
+                <AddForm handleSubmitForm={addNewItem} />
+                <div className={styles.todoList}>
+                    <div className={styles.todoListInfo}>
+                        <div>Todo List</div>
+                        <div>
+                            There are
+                            {` ${todoList.length} `}
+                            todos
                         </div>
-                        {this.todoList.map((item) => (
-                            <ToDoItem key={item.id} name={item.name} id={item.id} removeItem={this.removeItem} />
-                        ))}
                     </div>
+                    {todoList.map((item) => (
+                        <ToDoItem key={item.id} name={item.name} id={item.id} removeItem={removeItem} />
+                    ))}
                 </div>
             </div>
-        );
-    }
+        </div>
+    );
 }
 export { ToDoContainer };

@@ -1,16 +1,15 @@
-import { action, observable } from 'mobx';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+import { todoReducer, TTodoState } from 'modules/todo/reducers';
+import { todoModuleName } from 'modules/todo/constants';
 
-class TodoStore {
-    @observable todoList;
+type TRootState = {
+    [todoModuleName]: TTodoState,
+};
+const rootReducer = combineReducers({
+    [todoModuleName]: todoReducer,
+});
 
-    @action addNewItem = (name: string): void => {
-        this.todoList.push({
-            id: new Date().getTime(),
-            name,
-        });
-    }
+const store = createStore(rootReducer);
 
-@action removeItem = (id: number): void => {
-    this.todoList = this.todoList.filter((item) => item.id !== id);
-}
-}
+export { store };
+export type { TRootState };

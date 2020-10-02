@@ -26,6 +26,7 @@ module.exports = {
         indent: ['error', 4],
         'import/prefer-default-export': 0,
         'global-require': 0,
+        '@typescript-eslint/no-var-requires': 0,
         'react/jsx-indent': ['error', 4],
         'no-underscore-dangle': 0,
         'react/prop-types': 0,
